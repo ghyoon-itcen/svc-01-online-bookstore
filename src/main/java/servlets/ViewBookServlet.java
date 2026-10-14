@@ -37,6 +37,9 @@ public class ViewBookServlet extends HttpServlet {
 
             // Read available books from the database, filtered by name if a keyword is given
             String keyword = req.getParameter("keyword");
+            if (keyword != null) {
+                keyword = keyword.trim();
+            }
             List<Book> books = (keyword == null || keyword.isEmpty())
                     ? bookService.getAllBooks()
                     : bookService.searchBooksByName(keyword);
