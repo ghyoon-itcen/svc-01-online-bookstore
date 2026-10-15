@@ -27,12 +27,17 @@ public class DBUtil {
 
     }// End of static block
 
-    public static Connection getConnection() throws StoreException {
+    public static Connection getConnection(boolean autoCommit) throws StoreException {
 
         if (connection == null) {
             throw new StoreException(ResponseCode.DATABASE_CONNECTION_FAILURE);
         }
 
+        try {
+            connection.setAutoCommit(autoCommit);
+        } catch (SQLException e) {
+            throw new StoreException(ResponseCode.DATABASE_CONNECTION_FAILURE);
+        }
         return connection;
     }
 
