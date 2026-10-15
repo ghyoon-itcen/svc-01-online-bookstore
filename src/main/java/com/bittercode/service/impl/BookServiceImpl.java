@@ -87,6 +87,31 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<Book> searchBooksByName(String keyword) throws StoreException {
+        List<Book> books = new ArrayList<Book>();
+        Connection con = DBUtil.getConnection();
+        try {
+            String searchQuery = "SELECT * FROM " + BooksDBConstants.TABLE_BOOK
+                    + " WHERE " + BooksDBConstants.COLUMN_NAME + " LIKE '%" + keyword + "%'";
+            PreparedStatement ps = con.prepareStatement(searchQuery);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String bCode = rs.getString(1);
+                String bName = rs.getString(2);
+                String bAuthor = rs.getString(3);
+                int bPrice = rs.getInt(4);
+                int bQty = rs.getInt(5);
+
+                books.add(new Book(bCode, bName, bAuthor, bPrice, bQty));
+            }
+        } catch (SQLException e) {
+
+        }
+        return books;
+    }
+
+    @Override
     public String deleteBookById(String bookId) throws StoreException {
         String response = ResponseCode.FAILURE.name();
         Connection con = DBUtil.getConnection();

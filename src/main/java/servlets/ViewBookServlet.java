@@ -35,8 +35,14 @@ public class ViewBookServlet extends HttpServlet {
         }
         try {
 
-            // Read All available books from the database
-            List<Book> books = bookService.getAllBooks();
+            // Read available books, filtered by name when a search keyword is given
+            String keyword = req.getParameter("keyword");
+            if (keyword != null) {
+                keyword = keyword.trim();
+            }
+            List<Book> books = (keyword == null || keyword.isEmpty())
+                    ? bookService.getAllBooks()
+                    : bookService.searchBooksByName(keyword);
 
             // Default Page to load data into
             RequestDispatcher rd = req.getRequestDispatcher("CustomerHome.html");
@@ -50,6 +56,12 @@ public class ViewBookServlet extends HttpServlet {
                     + "<form action=\"cart\" method=\"post\" style='float:right; margin-right:20px'>"
                     + "<input type='submit' class=\"btn btn-primary\" name='cart' value='Proceed'/></form>"
                     + "</div>");
+            pw.println("<form action=\"viewbook\" method=\"get\" style='margin:10px 20px'>"
+                    + "<input type='text' name='keyword' placeholder='Search by book name'/>"
+                    + "<input type='submit' class=\"btn btn-default\" value='Search'/></form>");
+            if (keyword != null && !keyword.isEmpty()) {
+                pw.println("<p style='margin-left:20px'>Search results for: <b>" + keyword + "</b></p>");
+            }
             pw.println("<div class=\"container\">\r\n"
                     + "        <div class=\"card-columns\">");
 
