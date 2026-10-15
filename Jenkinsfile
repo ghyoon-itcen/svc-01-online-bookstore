@@ -28,7 +28,7 @@ pipeline {
                 def body = groovy.json.JsonOutput.toJson([
                     build_url: env.BUILD_URL,
                     commit   : env.GIT_COMMIT ?: '',
-                    branch   : env.BRANCH_NAME ?: '',
+                    branch   : env.BRANCH_NAME ?: (env.GIT_BRANCH ?: ''),
                     stage    : env.FAILED_STAGE ?: ''
                 ])
                 writeFile file: 'adso-failure.json', text: body
