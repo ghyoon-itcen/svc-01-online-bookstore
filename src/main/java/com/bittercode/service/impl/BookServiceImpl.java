@@ -40,7 +40,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book getBookById(String bookId) throws StoreException {
         Book book = null;
-        Connection con = DBUtil.getConnection();
+        Connection con = DBUtil.getConnection(true);
         try {
             PreparedStatement ps = con.prepareStatement(getBookByIdQuery);
             ps.setString(1, bookId);
@@ -64,7 +64,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> getAllBooks() throws StoreException {
         List<Book> books = new ArrayList<Book>();
-        Connection con = DBUtil.getConnection();
+        Connection con = DBUtil.getConnection(true);
 
         try {
             PreparedStatement ps = con.prepareStatement(getAllBooksQuery);
@@ -89,7 +89,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public String deleteBookById(String bookId) throws StoreException {
         String response = ResponseCode.FAILURE.name();
-        Connection con = DBUtil.getConnection();
+        Connection con = DBUtil.getConnection(true);
         try {
             PreparedStatement ps = con.prepareStatement(deleteBookByIdQuery);
             ps.setString(1, bookId);
@@ -107,7 +107,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public String addBook(Book book) throws StoreException {
         String responseCode = ResponseCode.FAILURE.name();
-        Connection con = DBUtil.getConnection();
+        Connection con = DBUtil.getConnection(true);
         try {
             PreparedStatement ps = con.prepareStatement(addBookQuery);
             ps.setString(1, book.getBarcode());
@@ -129,7 +129,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public String updateBookQtyById(String bookId, int quantity) throws StoreException {
         String responseCode = ResponseCode.FAILURE.name();
-        Connection con = DBUtil.getConnection();
+        Connection con = DBUtil.getConnection(true);
         try {
             PreparedStatement ps = con.prepareStatement(updateBookQtyByIdQuery);
             ps.setInt(1, quantity);
@@ -146,7 +146,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> getBooksByCommaSeperatedBookIds(String commaSeperatedBookIds) throws StoreException {
         List<Book> books = new ArrayList<Book>();
-        Connection con = DBUtil.getConnection();
+        Connection con = DBUtil.getConnection(true);
         try {
             String getBooksByCommaSeperatedBookIdsQuery = "SELECT * FROM " + BooksDBConstants.TABLE_BOOK
                     + " WHERE " +
@@ -173,7 +173,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public String updateBook(Book book) throws StoreException {
         String responseCode = ResponseCode.FAILURE.name();
-        Connection con = DBUtil.getConnection();
+        Connection con = DBUtil.getConnection(true);
         try {
             PreparedStatement ps = con.prepareStatement(updateBookByIdQuery);
             ps.setString(1, book.getName());
