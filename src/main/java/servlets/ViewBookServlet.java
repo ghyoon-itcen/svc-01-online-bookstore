@@ -60,7 +60,7 @@ public class ViewBookServlet extends HttpServlet {
                     + "<input type='text' name='keyword' placeholder='Search by book name'/>"
                     + "<input type='submit' class=\"btn btn-default\" value='Search'/></form>");
             if (keyword != null && !keyword.isEmpty()) {
-                pw.println("<p style='margin-left:20px'>Search results for: <b>" + keyword + "</b></p>");
+                pw.println("<p style='margin-left:20px'>Search results for: <b>" + escapeHtml(keyword) + "</b></p>");
             }
             pw.println("<div class=\"container\">\r\n"
                     + "        <div class=\"card-columns\">");
@@ -85,6 +85,17 @@ public class ViewBookServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private String escapeHtml(String input) {
+        if (input == null) {
+            return "";
+        }
+        return input.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;");
     }
 
     public String addBookToCard(HttpSession session, Book book) {

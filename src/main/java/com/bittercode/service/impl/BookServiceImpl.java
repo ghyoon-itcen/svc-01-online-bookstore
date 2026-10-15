@@ -92,8 +92,9 @@ public class BookServiceImpl implements BookService {
         Connection con = DBUtil.getConnection();
         try {
             String searchQuery = "SELECT * FROM " + BooksDBConstants.TABLE_BOOK
-                    + " WHERE " + BooksDBConstants.COLUMN_NAME + " LIKE '%" + keyword + "%'";
+                    + " WHERE " + BooksDBConstants.COLUMN_NAME + " LIKE ?";
             PreparedStatement ps = con.prepareStatement(searchQuery);
+            ps.setString(1, "%" + keyword + "%");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
