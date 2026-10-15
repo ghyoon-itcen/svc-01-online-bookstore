@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(UserRole role, String email, String password, HttpSession session) throws StoreException {
-        Connection con = DBUtil.getConnection();
+        Connection con = DBUtil.getConnection(true);
         PreparedStatement ps;
         User user = null;
         try {
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String register(UserRole role, User user) throws StoreException {
         String responseMessage = ResponseCode.FAILURE.name();
-        Connection con = DBUtil.getConnection();
+        Connection con = DBUtil.getConnection(true);
         try {
             PreparedStatement ps = con.prepareStatement(registerUserQuery);
             ps.setString(1, user.getEmailId());
